@@ -1,5 +1,5 @@
 # TrackingGIF
-一个基于 Cloudflare Pages 的跟踪像素（图片探针）程序
+一个基于 Cloudflare Pages 的跟踪像素（图片探针）程序。
 
 ## 部署
 1. Fork 分叉此仓库，打开 Cloudflare 控制台，在 `Workers 和 Pages` 页面创建一个 Pages 应用程序，连接到 Git 然后选择您刚刚分叉的这个仓库，什么设置项都不用填，直接保存并部署即可。
@@ -26,14 +26,13 @@ POST /create，请求体带 JSON：
 返回：
 ```json
 {
-    "code": 200,
-    "message": "success",
-    "time": 1743758735672,
-    "trackingId": "63d8129f-6010-452f-a0af-9117284d758c"
+    "code": 200, // 状态码
+    "message": "success", // 返回消息
+    "time": 1743758735672, // 请求时间戳
+    "trackingId": "63d8129f-6010-452f-a0af-9117284d758c" // 跟踪 ID
 }
 ```
-
-其中的 `trackingId` 字段是生成的跟踪 ID，  
+ 
 将这个跟踪 ID 拼接得到：
 ```txt
 https://example.com/track/63d8129f-6010-452f-a0af-9117284d758c.gif
@@ -65,7 +64,7 @@ POST /query，请求体带 JSON：
         "visitCount": 2, // 访问次数
         "logs": [
             {
-                "time": "1743759381268", // 访问时间
+                "time": "1743759381268", // 访问时间戳
                 "ip": "56.133.0.0", // 访问者 IP
                 "country": "XX", // 访问者地区代码
                 "userAgent": "Go-http-client/1.1" // 访问者 UA
