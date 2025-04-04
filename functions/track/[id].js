@@ -49,7 +49,7 @@ export async function onRequest(context) {
     const formattedDate = Date.now().toString();
 
     try {
-        // 更新访问状态 + 增加计数（只在存在记录时执行）
+        // 更新访问状态和增加计数（只在存在记录时执行）
         const updated = await env.DB.prepare(`
             WITH check_tracking AS (
                 SELECT 1 FROM tracking WHERE trackingId = ? LIMIT 1
