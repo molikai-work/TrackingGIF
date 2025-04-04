@@ -36,7 +36,7 @@ export async function onRequest(context) {
     // 处理 params.id
     const rawId = params.id;
     if (!rawId || !rawId.endsWith('.gif')) {
-        return new Response(null, { status: 404 });
+        return createResponse(404, '', {}, true);
     }
     const trackingId = rawId.slice(0, -4); // 去除 .gif 后缀
 
@@ -61,7 +61,7 @@ export async function onRequest(context) {
         `).bind(trackingId, trackingId).first();
 
         if (!updated) {
-            return new Response(null, { status: 404 });
+            return createResponse(404, '', {}, true);
         }
 
         // 记录访问日志
@@ -86,6 +86,6 @@ export async function onRequest(context) {
         });
     } catch (error) {
         console.error('处理跟踪请求时出错：', error);
-        return new Response(null, { status: 500 });
+        return createResponse(500, '', {}, true);
     }
 }
