@@ -18,7 +18,18 @@ export const corsHeaders = {
 };
 
 // 统一返回函数
-export function createResponse(code, message, extraData = {}) {
+export function createResponse(code, message, extraData = {}, noBody = false) {
+    const headers = {
+        ...corsHeaders,
+    };
+
+    if (noBody) {
+        return new Response(null, {
+            status: code,
+            headers,
+        });
+    }
+
     return Response.json({
         code: code,
         message: message,

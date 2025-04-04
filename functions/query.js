@@ -41,13 +41,13 @@ export async function onRequest(context) {
 
     // 检查必填字段
     if (!trackingId) {
-        return createResponse(422, '请提供 Tracking ID');
+        return createResponse(422, '请提供跟踪 ID');
     }
     if (!password) {
         return createResponse(422, '请提供管理密码');
     }
 
-    // 密码验证
+    // 验证密码
     const expectedPassword = env?.PASSWORD;
     if (!expectedPassword || password !== expectedPassword) {
         return createResponse(403, '管理密码错误');
@@ -62,7 +62,7 @@ export async function onRequest(context) {
         `).bind(trackingId).first();
 
         if (!trackingInfo) {
-            return createResponse(404, 'Tracking ID 不存在');
+            return createResponse(404, '跟踪 ID 不存在');
         }
 
         // 查询访问日志

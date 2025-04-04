@@ -80,6 +80,23 @@ POST /query，请求体带 JSON：
 }
 ```
 
+### 删除 `/delete`
+POST /delete，请求体带 JSON：
+```json
+{
+    "trackingId": "63d8129f-6010-452f-a0af-9117284d758c",
+    "password": "0123456789"
+}
+```
+
+`trackingId` 的值填写您要删除的跟踪 ID。  
+`password` 的值填写您在部署阶段第3步设置的密码。
+
+返回：
+```http
+HTTP/1.1 204 No Content
+```
+
 ## 许可证
 本程序使用 AGPL-3.0，  
 更多信息请参见 [LICENSE](LICENSE)。
