@@ -24,6 +24,7 @@ export async function onRequest(context) {
     // 处理预检请求
     if (request.method === 'OPTIONS') {
         return new Response(null, {
+            status: 204,
             headers: {
                 'Access-Control-Allow-Origin': allowOrigin,
                 'Access-Control-Allow-Methods': 'POST, OPTIONS',
