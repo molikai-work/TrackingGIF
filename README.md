@@ -27,7 +27,7 @@ POST /create，请求体带 JSON：
 ```json
 {
     "code": 200, // 状态码
-    "message": "success", // 返回消息
+    "message": "success", // 返回的消息
     "time": 1743758735672, // 请求时间戳
     "trackingId": "63d8129f-6010-452f-a0af-9117284d758c" // 跟踪 ID
 }
