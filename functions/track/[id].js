@@ -27,7 +27,7 @@ export async function onRequest(context) {
             status: 204,
             headers: {
                 'Access-Control-Allow-Origin': allowOrigin,
-                'Access-Control-Allow-Methods': 'POST, OPTIONS',
+                'Access-Control-Allow-Methods': 'GET, POST, HEAD, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Max-Age': '86400',
             },
