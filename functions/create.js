@@ -53,11 +53,11 @@ export async function onRequest(context) {
         return createResponse(403, '管理密码错误');
     }
 
-    // 创建追踪 ID
+    // 创建跟踪 ID
     const trackingId = crypto.randomUUID();
 
     try {
-        // 插入新的追踪 ID
+        // 插入新的跟踪 ID
         await env.DB.prepare(`
             INSERT INTO tracking (trackingId, createdAt, visited, visitCount)
             VALUES (?, ?, ?, ?)
@@ -67,7 +67,7 @@ export async function onRequest(context) {
 
         return createResponse(200, 'success', { trackingId });
     } catch (error) {
-        console.error('追踪 ID 创建失败：', error);
+        console.error('跟踪 ID 创建失败：', error);
         return createResponse(500, '服务器内部错误');
     }
 }

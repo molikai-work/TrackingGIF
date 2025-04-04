@@ -85,7 +85,7 @@ export async function onRequest(context) {
             }
         });
     } catch (error) {
-        console.error('处理追踪请求时出错：', error);
+        console.error('处理跟踪请求时出错：', error);
         return new Response(null, { status: 500 });
     }
 }
