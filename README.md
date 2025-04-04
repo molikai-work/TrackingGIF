@@ -80,4 +80,8 @@ POST /query，请求体带 JSON：
 }
 ```
 
+## 许可证
+本程序使用 AGPL-3.0，  
+更多信息请参见 [LICENSE](LICENSE)。
+
 ![](https://trackinggif.pages.dev/track/4dc2a514-5de1-4133-ae0a-eefa52d47fb5.gif)
