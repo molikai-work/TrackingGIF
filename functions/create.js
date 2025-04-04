@@ -11,7 +11,7 @@ import { allowOrigin, createResponse } from './utils';
 export async function onRequest(context) {
     const { request, env } = context;
 
-    // 预检请求处理
+    // 处理预检请求
     if (request.method === 'OPTIONS') {
         return new Response(null, {
             headers: {

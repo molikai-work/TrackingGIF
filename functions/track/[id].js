@@ -21,7 +21,7 @@ const PIXEL_GIF = new Uint8Array([
 export async function onRequest(context) {
     const { request, params, env } = context;
 
-    // 预检请求
+    // 处理预检请求
     if (request.method === 'OPTIONS') {
         return new Response(null, {
             headers: {
