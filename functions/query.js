@@ -57,7 +57,7 @@ export async function onRequest(context) {
     // 验证 sortOrder 是否有效
     const validSortOrders = ['asc', 'desc'];
     if (sortOrder && !validSortOrders.includes(sortOrder)) {
-        return createResponse(400, '无效的排序方式，支持 "asc" 或 "desc"');
+        return createResponse(400, '无效的排序方式');
     }
 
     // 默认排序方式为降序
