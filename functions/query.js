@@ -1,9 +1,3 @@
-/*
- * Copyright (c) molikai-work (2025)
- * https://github.com/molikai-work/TrackingGIF
- * 根据 AGPL-3.0 许可证发布
- */
-
 // functions/query.js
 
 import { allowOrigin, createResponse } from './utils';
@@ -38,7 +32,7 @@ export async function onRequest(context) {
     }
 
     // 从请求体中获取参数
-    const { trackingId, sortOrder, password } = requestBody;
+    const { trackingId, sortOrder, limit, password } = requestBody;
 
     // 检查必填字段
     if (!trackingId) {
@@ -59,9 +53,18 @@ export async function onRequest(context) {
     if (sortOrder && !validSortOrders.includes(sortOrder)) {
         return createResponse(400, '无效的排序方式');
     }
-
     // 默认排序方式为降序
     const orderBy = sortOrder === 'asc' ? 'ASC' : 'DESC';
+
+    // 验证 limit 是否为正整数
+    let logsLimit = null;
+    if (limit !== undefined) {
+        const parsedLimit = parseInt(limit);
+        if (isNaN(parsedLimit) || parsedLimit <= 0) {
+            return createResponse(400, '无效的限制数量');
+        }
+        logsLimit = parsedLimit;
+    }
 
     // 验证密码
     const expectedPassword = env?.PASSWORD;
@@ -81,13 +84,18 @@ export async function onRequest(context) {
             return createResponse(404, '跟踪 ID 不存在');
         }
 
-        // 查询访问日志
-        const logResults = await env.DB.prepare(`
+        // 构建 SQL 查询语句
+        let logsQuery = `
             SELECT time, ip, country, userAgent
             FROM logs
             WHERE trackingId = ?
             ORDER BY time ${orderBy}
-        `).bind(trackingId).all();
+        `;
+        if (logsLimit !== null) {
+            logsQuery += ` LIMIT ${logsLimit}`;
+        }
+
+        const logResults = await env.DB.prepare(logsQuery).bind(trackingId).all();
 
         const logs = logResults.results.map(log => ({
             time: log.time,
@@ -100,12 +108,11 @@ export async function onRequest(context) {
         return createResponse(200, 'success', {
             data: {
                 trackingId,
-                visited: trackingInfo.visited === "true",
+                visited: trackingInfo.visited,
                 visitCount: trackingInfo.visitCount,
                 logs
             },
         });
-
     } catch (error) {
         console.error('数据查询失败：', error);
         return createResponse(500, '服务器内部错误');
