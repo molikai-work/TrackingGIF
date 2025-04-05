@@ -64,7 +64,7 @@ export async function onRequest(context) {
         }
 
         const parsedLimit = parseInt(limit, 10);
-        if (parsedLimit <= 0) {
+        if (parsedLimit <= 0 || parsedLimit > 10000000) {
             return createResponse(400, '无效的限制数量');
         }
 
