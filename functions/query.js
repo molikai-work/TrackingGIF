@@ -60,12 +60,12 @@ export async function onRequest(context) {
     let logsLimit = null;
     if (limit !== undefined) {
         if (!/^\d+$/.test(limit)) {
-            return createResponse(400, '无效的限制数量');
+            return createResponse(400, '无效的输出限制');
         }
 
         const parsedLimit = parseInt(limit, 10);
         if (parsedLimit <= 0 || parsedLimit > 10000000) {
-            return createResponse(400, '无效的限制数量');
+            return createResponse(400, '无效的输出限制');
         }
 
         logsLimit = parsedLimit;
