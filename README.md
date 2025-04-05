@@ -46,12 +46,14 @@ POST /query，请求体带 JSON：
 {
     "trackingId": "63d8129f-6010-452f-a0af-9117284d758c",
     "sortOrder": "asc",
+    "limit": "10",
     "password": "0123456789"
 }
 ```
 
 `trackingId` 的值填写您要查询的跟踪 ID，必填。  
 `sortOrder` 的值填写您需要按升序还是降序查询，`asc` 和 `desc`，可选，默认为 `desc` 降序。  
+`limit` 的值填写您需要输出多少条记录，正整数，可选，默认为全部输出。  
 `password` 的值填写您在部署阶段第3步设置的密码，必填。
 
 返回：
