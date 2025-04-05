@@ -38,7 +38,7 @@ export async function onRequest(context) {
     }
 
     // 从请求体中获取参数
-    const { trackingId, password } = requestBody;
+    const { trackingId, sortOrder, password } = requestBody;
 
     // 检查必填字段
     if (!trackingId) {
@@ -53,6 +53,15 @@ export async function onRequest(context) {
     if (!uuidV4Regex.test(trackingId)) {
         return createResponse(400, '无效的跟踪 ID');
     }
+
+    // 验证 sortOrder 是否有效
+    const validSortOrders = ['asc', 'desc'];
+    if (sortOrder && !validSortOrders.includes(sortOrder)) {
+        return createResponse(400, '无效的排序方式，支持 "asc" 或 "desc"');
+    }
+
+    // 默认排序方式为降序
+    const orderBy = sortOrder === 'asc' ? 'ASC' : 'DESC';
 
     // 验证密码
     const expectedPassword = env?.PASSWORD;
@@ -73,13 +82,11 @@ export async function onRequest(context) {
         }
 
         // 查询访问日志
-        // 升序 ORDER BY time ASC
-        // 降序 ORDER BY time DESC
         const logResults = await env.DB.prepare(`
             SELECT time, ip, country, userAgent
             FROM logs
             WHERE trackingId = ?
-            ORDER BY time DESC
+            ORDER BY time ${orderBy}
         `).bind(trackingId).all();
 
         const logs = logResults.results.map(log => ({
