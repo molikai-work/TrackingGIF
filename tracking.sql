@@ -10,9 +10,9 @@ DROP TABLE IF EXISTS logs;
 CREATE TABLE IF NOT EXISTS logs (
     `id` INTEGER PRIMARY KEY NOT NULL,
     `trackingId` TEXT NOT NULL,
-    `time` TEXT,
-    `ip` TEXT,
-    `country` TEXT,
+    `time` TEXT NOT NULL,
+    `ip` TEXT NOT NULL,
+    `country` TEXT NOT NULL,
     `userAgent` TEXT
 );
 
