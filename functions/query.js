@@ -48,6 +48,12 @@ export async function onRequest(context) {
         return createResponse(401, '请提供管理密码');
     }
 
+    // 验证 trackingId 的格式
+    const uuidV4Regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidV4Regex.test(trackingId)) {
+        return createResponse(400, '无效的跟踪 ID');
+    }
+
     // 验证密码
     const expectedPassword = env?.PASSWORD;
     if (!expectedPassword || password !== expectedPassword) {

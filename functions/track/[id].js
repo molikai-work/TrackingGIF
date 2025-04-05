@@ -49,6 +49,12 @@ export async function onRequest(context) {
     // 当前时间戳
     const formattedDate = Date.now().toString();
 
+    // 验证 trackingId 的格式
+    const uuidV4Regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidV4Regex.test(trackingId)) {
+        return createResponse(404, '', {}, true);
+    }
+
     try {
         // 更新访问状态和增加计数（只在存在记录时执行）
         const updated = await env.DB.prepare(`
