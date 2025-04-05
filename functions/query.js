@@ -59,10 +59,15 @@ export async function onRequest(context) {
     // 验证 limit 是否为正整数
     let logsLimit = null;
     if (limit !== undefined) {
-        const parsedLimit = parseInt(limit);
-        if (isNaN(parsedLimit) || parsedLimit <= 0) {
+        if (!/^\d+$/.test(limit)) {
             return createResponse(400, '无效的限制数量');
         }
+
+        const parsedLimit = parseInt(limit, 10);
+        if (parsedLimit <= 0) {
+            return createResponse(400, '无效的限制数量');
+        }
+
         logsLimit = parsedLimit;
     }
 
