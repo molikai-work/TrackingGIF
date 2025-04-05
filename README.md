@@ -149,6 +149,17 @@ HTTP/1.1 204 No Content
 5.
     ```json
     {
+        "code": 404,
+        "message": "跟踪 ID 不存在",
+        "time": 1743834250267
+    }
+    ```
+
+    解释：您提供的 `trackingId` 字段不存在。
+
+6.
+    ```json
+    {
         "code": 422,
         "message": "请提供跟踪 ID",
         "time": 1743834307575
@@ -157,7 +168,7 @@ HTTP/1.1 204 No Content
 
     解释：您未提供 `trackingId` 字段。
 
-6.
+7.
     ```json
     {
         "code": 401,
@@ -168,7 +179,7 @@ HTTP/1.1 204 No Content
 
     解释：您未提供 `password` 字段。
 
-7.
+8.
     ```json
     {
         "code": 405,
@@ -179,7 +190,7 @@ HTTP/1.1 204 No Content
 
     解释：您对接口使用了它不支持的请求方式。
 
-8.
+9.
     ```json
     {
         "code": 400,
@@ -190,7 +201,7 @@ HTTP/1.1 204 No Content
 
     解释：您向接口提供了它无法解析的 JSON 格式。
 
-9.
+10.
     ```json
     {
         "code": 500,
