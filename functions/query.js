@@ -45,7 +45,7 @@ export async function onRequest(context) {
         return createResponse(422, '请提供跟踪 ID');
     }
     if (!password) {
-        return createResponse(422, '请提供管理密码');
+        return createResponse(401, '请提供管理密码');
     }
 
     // 验证密码

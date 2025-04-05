@@ -45,7 +45,7 @@ export async function onRequest(context) {
 
     // 检查必填字段
     if (!password) {
-        return createResponse(422, '请提供管理密码');
+        return createResponse(401, '请提供管理密码');
     }
 
     // 验证密码
