@@ -80,7 +80,7 @@ export async function onRequest(context) {
     try {
         // 查询 tracking 数据表
         const trackingInfo = await env.DB.prepare(`
-            SELECT visited, visitCount
+            SELECT visited, visitCount, initialPingUrl
             FROM tracking 
             WHERE trackingId = ?
         `).bind(trackingId).first();
@@ -115,6 +115,7 @@ export async function onRequest(context) {
                 trackingId,
                 visited: trackingInfo.visited,
                 visitCount: trackingInfo.visitCount,
+                initialPingUrl: trackingInfo.initialPingUrl,
                 logs
             },
         });
