@@ -73,7 +73,7 @@ export async function onRequest(context) {
             try {
                 context.waitUntil(
                     fetch(trackingData.initialPingUrl).catch(() => {});
-                )
+                );
             } catch (error) {
                 // 忽略错误
             }
