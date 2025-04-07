@@ -17,10 +17,12 @@
 POST /create，请求体带 JSON：
 ```json
 {
+    "initialPingUrl": "https://trackinggif.pages.dev/track/63d8129f-6010-452f-a0af-9117284d758c.gif",
     "password": "0123456789"
 }
 ```
 
+`initialPingUrl` 的值填写跟踪 URL 首次被访问时的回调地址（异步无头无内容的 GET 请求），可选。  
 `password` 的值填写您在部署阶段第3步设置的密码，必填。
 
 返回：
@@ -34,11 +36,11 @@ POST /create，请求体带 JSON：
 ```
 
 将这个跟踪 ID 拼接得到：
-```txt
+```
 https://example.com/track/63d8129f-6010-452f-a0af-9117284d758c.gif
 ```
 
-您可以将这串 URL 以图片的形式引入到电子邮件中，可以简单粗略的判断对方是否已读。
+您可以将这串跟踪 URL 以图片的形式引入到电子邮件中，可以简单粗略的判断对方是否已读。
 
 ### 查询 `/query`
 POST /query，请求体带 JSON：
@@ -84,8 +86,27 @@ POST /query，请求体带 JSON：
 }
 ```
 
+### 更新 `/update`
+PUT /update，请求体带 JSON：
+```json
+{
+    "trackingId": "63d8129f-6010-452f-a0af-9117284d758c",
+    "initialPingUrl": "https://trackinggif.pages.dev/track/63d8129f-6010-452f-a0af-9117284d758c.gif",
+    "password": "0123456789"
+}
+```
+
+`trackingId` 的值填写您要更新的跟踪 ID，必填。  
+`initialPingUrl` 的值填写您要更新的回调地址，可选，不填则在数据库中设置为 Null。  
+`password` 的值填写您在部署阶段第3步设置的密码，必填。
+
+返回：
+```http
+HTTP/1.1 204 No Content
+```
+
 ### 删除 `/delete`
-POST /delete，请求体带 JSON：
+DELETE /delete，请求体带 JSON：
 ```json
 {
     "trackingId": "63d8129f-6010-452f-a0af-9117284d758c",
@@ -204,9 +225,20 @@ HTTP/1.1 204 No Content
 10.
     ```json
     {
+        "code": 400,
+        "message": "回调地址必须是合法的 URL",
+        "time": 1743834534531
+    }
+    ```
+
+    解释：您在 `initialPingUrl` 字段提供的回调地址不是合法的 URL。
+
+11.
+    ```json
+    {
         "code": 500,
         "message": "服务器内部错误",
-        "time": 1743834533066
+        "time": 1743834537150
     }
     ```
 

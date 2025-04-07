@@ -44,7 +44,7 @@ export async function onRequest(context) {
     // 获取访客的 IP、地区和 UA
     const clientIP = request.headers.get('CF-Connecting-IP');
     const country = request.headers.get('CF-IPCountry');
-    const userAgent = request.headers.get('User-Agent') || null;
+    const userAgent = request.headers.get('User-Agent');
 
     // 当前时间戳
     const formattedDate = Date.now().toString();

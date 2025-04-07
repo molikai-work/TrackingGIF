@@ -17,15 +17,15 @@ export async function onRequest(context) {
             status: 204,
             headers: {
                 'Access-Control-Allow-Origin': allowOrigin,
-                'Access-Control-Allow-Methods': 'PATCH, OPTIONS',
+                'Access-Control-Allow-Methods': 'PUT, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Max-Age': '86400',
             },
         });
     }
 
-    // 仅允许 PATCH 请求
-    if (request.method !== 'PATCH') {
+    // 仅允许 PUT 请求
+    if (request.method !== 'PUT') {
         return createResponse(405, '不支持的请求方法');
     }
 
@@ -38,7 +38,7 @@ export async function onRequest(context) {
     }
 
     // 从请求体中获取参数
-    const { trackingId, initialPingUrl = null, password } = requestBody;
+    const { trackingId, initialPingUrl, password } = requestBody;
 
     // 检查必填字段
     if (!trackingId) {
@@ -86,7 +86,7 @@ export async function onRequest(context) {
             UPDATE tracking
             SET initialPingUrl = ?
             WHERE trackingId = ?
-        `).bind(initialPingUrl === null ? null : initialPingUrl, trackingId).run();
+        `).bind(initialPingUrl, trackingId).run();
 
         // 返回结果
         return createResponse(204, '', {}, true);
