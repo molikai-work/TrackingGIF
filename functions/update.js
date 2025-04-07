@@ -38,7 +38,7 @@ export async function onRequest(context) {
     }
 
     // 从请求体中获取参数
-    const { trackingId, initialPingUrl } = requestBody;
+    const { trackingId, initialPingUrl, password } = requestBody;
 
     // 检查必填字段
     if (!trackingId) {
