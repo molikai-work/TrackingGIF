@@ -41,7 +41,16 @@ export async function onRequest(context) {
     }
 
     // 从请求体中获取参数
-    const { password } = requestBody;
+    const { initialPingUrl = null, password } = requestBody;
+
+    // 如果有 initialPingUrl，则验证是否为合法 URL
+    if (initialPingUrl) {
+        try {
+            new URL(initialPingUrl);
+        } catch {
+            return createResponse(400, '回调地址必须是合法的 URL');
+        }
+    }
 
     // 检查必填字段
     if (!password) {
@@ -60,10 +69,15 @@ export async function onRequest(context) {
     try {
         // 插入新的跟踪 ID
         await env.DB.prepare(`
-            INSERT INTO tracking (trackingId, createdAt, visited, visitCount)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO tracking (trackingId, createdAt, visited, visitCount, initialPingUrl)
+            VALUES (?, ?, ?, ?, ?)
         `)
-        .bind(trackingId, formattedDate, "false", 0)
+        .bind(
+            trackingId,
+            formattedDate,
+            "false",
+            0,
+            initialPingUrl)
         .run();
 
         // 返回结果

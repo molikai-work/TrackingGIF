@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS tracking (
     `trackingId` TEXT NOT NULL,
     `createdAt` TEXT NOT NULL,
     `visited` TEXT NOT NULL,
-    `visitCount` INTEGER NOT NULL
+    `visitCount` INTEGER NOT NULL,
+    `initialPingUrl` TEXT
 );
 DROP TABLE IF EXISTS logs;
 CREATE TABLE IF NOT EXISTS logs (

@@ -42,9 +42,9 @@ export async function onRequest(context) {
     const trackingId = rawId.slice(0, -4); // 去除 .gif 后缀
 
     // 获取访客的 IP、地区和 UA
-    const clientIP = request.headers.get("CF-Connecting-IP");
-    const country = request.headers.get("CF-IPCountry");
-    const userAgent = request.headers.get("User-Agent") || null;
+    const clientIP = request.headers.get('CF-Connecting-IP');
+    const country = request.headers.get('CF-IPCountry');
+    const userAgent = request.headers.get('User-Agent') || null;
 
     // 当前时间戳
     const formattedDate = Date.now().toString();
@@ -56,20 +56,33 @@ export async function onRequest(context) {
     }
 
     try {
-        // 更新访问状态和增加计数（只在存在记录时执行）
-        const updated = await env.DB.prepare(`
-            WITH check_tracking AS (
-                SELECT 1 FROM tracking WHERE trackingId = ? LIMIT 1
-            )
-            UPDATE tracking
-            SET visited = "true", visitCount = visitCount + 1
-            WHERE trackingId = ? AND EXISTS (SELECT 1 FROM check_tracking)
-            RETURNING 1
-        `).bind(trackingId, trackingId).first();
+        // 查询数据
+        const trackingData = await env.DB.prepare(`
+            SELECT visited, initialPingUrl
+            FROM tracking
+            WHERE trackingId = ?
+            LIMIT 1
+        `).bind(trackingId).first();
 
-        if (!updated) {
+        if (!trackingData) {
             return createResponse(404, '', {}, true);
         }
+
+        // 如果满足条件，向 initialPingUrl 发送请求
+        if (trackingData.visited === 'false' && trackingData.initialPingUrl) {
+            try {
+                fetch(trackingData.initialPingUrl).catch(() => {});
+            } catch (error) {
+                // 忽略错误
+            }
+        }
+
+        // 更新访问状态和增加计数
+        await env.DB.prepare(`
+            UPDATE tracking
+            SET visited = "true", visitCount = visitCount + 1
+            WHERE trackingId = ?
+        `).bind(trackingId).first();
 
         // 记录访问日志
         await env.DB.prepare(`
