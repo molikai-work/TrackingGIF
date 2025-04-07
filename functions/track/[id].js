@@ -56,7 +56,7 @@ export async function onRequest(context) {
     }
 
     try {
-        // 查询数据
+        // 查询 tracking 数据表
         const trackingData = await env.DB.prepare(`
             SELECT visited, initialPingUrl
             FROM tracking

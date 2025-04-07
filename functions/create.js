@@ -43,7 +43,7 @@ export async function onRequest(context) {
     // 从请求体中获取参数
     const { initialPingUrl = null, password } = requestBody;
 
-    // 如果有 initialPingUrl，则验证是否为合法 URL
+    // 如果有 initialPingUrl，则验证是否为合法的 URL
     if (initialPingUrl) {
         try {
             new URL(initialPingUrl);
