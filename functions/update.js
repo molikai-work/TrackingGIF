@@ -86,7 +86,10 @@ export async function onRequest(context) {
             UPDATE tracking
             SET initialPingUrl = ?
             WHERE trackingId = ?
-        `).bind(initialPingUrl, trackingId).run();
+        `).bind(
+            initialPingUrl,
+            trackingId
+        ).run();
 
         // 返回结果
         return createResponse(204, '', {}, true);
