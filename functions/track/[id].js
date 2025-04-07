@@ -71,7 +71,9 @@ export async function onRequest(context) {
         // 如果满足条件，向 initialPingUrl 发送请求
         if (trackingData.visited === 'false' && trackingData.initialPingUrl) {
             try {
-                fetch(trackingData.initialPingUrl).catch(() => {});
+                context.waitUntil(
+                    fetch(trackingData.initialPingUrl).catch(() => {});
+                )
             } catch (error) {
                 // 忽略错误
             }
