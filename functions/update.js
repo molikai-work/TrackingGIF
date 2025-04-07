@@ -38,30 +38,29 @@ export async function onRequest(context) {
     }
 
     // 从请求体中获取参数
-    const { trackingId, initialPingUrl, password } = requestBody;
+    const { trackingId, initialPingUrl = null, password } = requestBody;
 
     // 检查必填字段
     if (!trackingId) {
         return createResponse(422, '请提供跟踪 ID');
     }
-    if (!initialPingUrl) {
-        return createResponse(422, '请提供要更新的回调地址');
-    }
     if (!password) {
         return createResponse(401, '请提供管理密码');
-    }
-
-    // 验证 initialPingUrl 是否为合法的 URL
-    try {
-        new URL(initialPingUrl);
-    } catch {
-        return createResponse(400, '更新的回调地址必须是合法的 URL');
     }
 
     // 验证 trackingId 的格式
     const uuidV4Regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     if (!uuidV4Regex.test(trackingId)) {
         return createResponse(400, '无效的跟踪 ID');
+    }
+
+    // 如果有 initialPingUrl，则验证是否为合法的 URL
+    if (initialPingUrl) {
+        try {
+            new URL(initialPingUrl);
+        } catch {
+            return createResponse(400, '回调地址必须是合法的 URL');
+        }
     }
 
     // 验证密码
