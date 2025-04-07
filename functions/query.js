@@ -115,7 +115,7 @@ export async function onRequest(context) {
                 trackingId,
                 visited: trackingInfo.visited,
                 visitCount: trackingInfo.visitCount,
-                initialPingUrl: trackingInfo.initialPingUrl == null ? null : trackingInfo.initialPingUrl,
+                initialPingUrl: trackingInfo.initialPingUrl === '' || trackingInfo.initialPingUrl == null ? null : trackingInfo.initialPingUrl,
                 logs
             },
         });
