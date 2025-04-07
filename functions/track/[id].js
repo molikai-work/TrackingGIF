@@ -68,11 +68,11 @@ export async function onRequest(context) {
             return createResponse(404, '', {}, true);
         }
 
-        // 如果满足条件，向 initialPingUrl 发送请求
+        // 如果满足条件，异步向 initialPingUrl 发送请求
         if (trackingData.visited === 'false' && trackingData.initialPingUrl) {
             try {
                 context.waitUntil(
-                    fetch(trackingData.initialPingUrl).catch(() => {});
+                    fetch(trackingData.initialPingUrl).catch(() => {})
                 );
             } catch (error) {
                 // 忽略错误
